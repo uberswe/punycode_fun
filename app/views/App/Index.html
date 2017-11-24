@@ -13,7 +13,7 @@
         <div class="col-md-6">
             <form id="decodeform" method="post" onsubmit="return decodePunycode();">
                 <div class="form-group">
-                    <label for="decodeStrings">Strings</label>
+                    <label for="encodeStrings">Strings</label>
                     <textarea name="strings" type="text" class="form-control" rows="6" id="encodeStrings" aria-describedby="encodeHelp">{{.stringsVarDecoded}}</textarea>
                     <small id="encodeHelp" class="form-text text-muted">One string per line.</small>
                 </div>
@@ -25,7 +25,7 @@
         <div class="col-md-6">
             <form id="encodeform" method="post" onsubmit="return encodePunycode();">
                 <div class="form-group">
-                    <label for="encodeStrings">Strings</label>
+                    <label for="decodeStrings">Strings</label>
                     <textarea name="strings" type="text" class="form-control" rows="6" id="decodeStrings" aria-describedby="decodeHelp">{{.stringsVarEncoded}}</textarea>
                     <small id="decodeHelp" class="form-text text-muted">One string per line.</small>
                 </div>
@@ -57,12 +57,10 @@
                 url: "/api/v1/encode",
                 data: data
             }).done(function (obj) {
-                console.log("encode");
-                console.log(obj);
                 var block = $("#encodeStrings");
-                block.html("");
+                block.val("");
                 for (i = 0; i < obj.encoded_strings.length; i++) {
-                    block.append(obj.encoded_strings[i] + "\n");
+                    block.val(block.val() + obj.encoded_strings[i]);
                 }
             });
             return false;
@@ -82,12 +80,10 @@
                 url: "/api/v1/decode",
                 data: data
             }).done(function (obj) {
-                console.log("decode");
-                console.log(obj);
                 var block = $("#decodeStrings");
-                block.html("");
+                block.val("");
                 for (i = 0; i < obj.decoded_strings.length; i++) {
-                    block.append(obj.decoded_strings[i] + "\n");
+                    block.val(block.val() + obj.decoded_strings[i]);
                 }
             });
             return false;
